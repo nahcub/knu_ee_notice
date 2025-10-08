@@ -46,12 +46,12 @@ def send_telegram_message(new_notices):
         msg += f"• <a href='{link}'>{title}</a>\n"
     bot.send_message(chat_id=CHAT_ID, text=msg, parse_mode="HTML")
 
-if __name__ == "__main__":
-    all_notices = get_notices()
-    seen = load_seen_ids()
-    new = [(nid, t, l) for nid, t, l in all_notices if nid not in seen]
 
-    if new:
-        send_telegram_message(new)
-        all_ids = seen.union({nid for nid, _, _ in all_notices})
-        save_seen_ids(all_ids)
+if __name__ == "__main__":
+    today_notices = fetch_today_notices()
+
+    # 테스트용 코드: 새 공지가 없어도 테스트 메시지 발송
+    if not today_notices:
+        today_notices = [("테스트 메시지 (공지 없음)", NOTICE_URL)]
+
+    send_telegram(today_notices)
