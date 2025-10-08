@@ -1,0 +1,27 @@
+name: Daily Notice Checker
+on:
+  schedule:
+    - cron: "0 0 * * *"  # 매일 09:00 (KST) = 매일 00:00 (UTC)
+  workflow_dispatch:      # 수동 실행 버튼도 활성화
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+
+      - name: Install dependencies
+        run: |
+          pip install --quiet requests beautifulsoup4 python-telegram-bot
+
+      - name: Run script
+        env:
+          BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
+          CHAT_ID: ${{ secrets.CHAT_ID }}
+        run: |
+          python check_notice.py
