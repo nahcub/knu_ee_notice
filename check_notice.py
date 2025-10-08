@@ -9,6 +9,9 @@ BOT_TOKEN = os.environ["BOT_TOKEN"]
 CHAT_ID = os.environ["CHAT_ID"]
 NOTICE_URL = "https://see.knu.ac.kr/content/board/notice.html"
 
+print("BOT_TOKEN prefix:", BOT_TOKEN[:10])
+print("CHAT_ID:", CHAT_ID)
+
 def fetch_today_notices():
     today_kst = datetime.now(ZoneInfo("Asia/Seoul")).strftime("%Y-%m-%d")
     res = requests.get(NOTICE_URL, timeout=15)
